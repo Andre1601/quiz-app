@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import LoginPage from "./Pages/Login";
+import QuizPage from "./Pages/Quiz";
+import ResultPage from "./Pages/Result";
+import { Route, Routes } from "react-router-dom";
+import { useAuth } from "./Context/AuthContext";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const { isLoggedIn } = useAuth();
+    if (!isLoggedIn) {
+        return (
+            <Routes>
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/*" element={<LoginPage />} />
+            </Routes>
+        );
+    } else {
+        return (
+            <Routes>
+                <Route path="/quiz" element={<QuizPage />} />
+                <Route path="/result" element={<ResultPage />} />
+            </Routes>
+        );
+    }
 }
 
 export default App;
